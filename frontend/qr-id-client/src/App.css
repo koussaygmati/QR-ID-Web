@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #4f46e5, #9333ea, #6d28d9);
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* On agrandit la partie info à 60% et formulaire à 40% */
+.form-section {
+  flex: 2;
+  background-color: white;
+  padding: 40px;
+  animation: fadeIn 1s ease-in-out;
+  overflow-y: auto;
+}
+
+.info-section {
+  flex: 3;
+  color: white;
+  padding: 60px 50px;
+  background: linear-gradient(135deg, #3730a3, #7c3aed);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.info-section h1,
+.info-section p {
+  margin: 0;
+}
+
+/* Titres et texte */
+.animated-title {
+  font-size: 50px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  animation: slideFadeIn 1s ease forwards;
+  opacity: 0;
+}
+
+.animated-slogan {
+  font-size: 22px;
+  font-weight: 600;
+  animation: slideFadeIn 1s ease forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.animated-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #d1d5db;
+  animation: slideFadeIn 1s ease forwards;
+  animation-delay: 1s;
+  opacity: 0;
+}
+
+footer {
+  text-align: right;
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: auto;
+}
+
+/* Animation clé */
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
