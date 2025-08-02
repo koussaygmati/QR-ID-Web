@@ -95,6 +95,7 @@ footer {
 }
 
 /* Responsive Mobile (tablette et téléphone) */
+/* Responsive Mobile (tablette et téléphone) */
 @media (max-width: 768px) {
   .main-container {
     flex-direction: column;
@@ -107,8 +108,13 @@ footer {
   }
 
   .info-section {
+    order: 1; /* Texte EN HAUT sur mobile */
     padding: 2rem 1.5rem;
     text-align: center;
+  }
+
+  .form-section {
+    order: 2; /* Formulaire EN BAS sur mobile */
   }
 
   footer {
