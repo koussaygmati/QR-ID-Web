@@ -13,7 +13,6 @@ const FormulaireQR = () => {
 
   const [errors, setErrors] = useState({});
   const [qrImage, setQrImage] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isQrVisible, setIsQrVisible] = useState(false);
 
@@ -44,9 +43,8 @@ const FormulaireQR = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("https://qr-id-web-4.onrender.com", formData);
+      const res = await axios.post("https://qr-id-web-5.onrender.com/generate", formData);
       setQrImage(res.data.qrImage);
-      setPdfUrl(res.data.pdfUrl);
       setIsQrVisible(true);
     } catch (err) {
       alert("Erreur lors de la génération !");
@@ -67,7 +65,6 @@ const FormulaireQR = () => {
   const handleRetour = () => {
     setIsQrVisible(false);
     setQrImage(null);
-    setPdfUrl(null);
     setFormData({
       nom: "",
       prenom: "",
@@ -207,121 +204,30 @@ const FormulaireQR = () => {
           background: linear-gradient(90deg, #6d28d9, #a855f7);
           transform: scale(1.05);
         }
-
         @keyframes fadeIn {
           from {opacity: 0; transform: translateY(15px);}
           to {opacity: 1; transform: translateY(0);}
         }
       `}</style>
 
-      <div className="container" aria-live="polite">
-        {!isQrVisible && (
+      <div className="container">
+        {!isQrVisible ? (
           <>
             <h2>Formulaire Utilisateur</h2>
             <div className="form-grid">
-              <div>
-                <input
-                  type="text"
-                  name="nom"
-                  placeholder="Nom"
-                  onChange={handleChange}
-                  value={formData.nom}
-                  aria-describedby="nomError"
-                  aria-invalid={!!errors.nom}
-                />
-                {errors.nom && (
-                  <p id="nomError" className="error-msg">
-                    {errors.nom}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  name="prenom"
-                  placeholder="Prénom"
-                  onChange={handleChange}
-                  value={formData.prenom}
-                  aria-describedby="prenomError"
-                  aria-invalid={!!errors.prenom}
-                />
-                {errors.prenom && (
-                  <p id="prenomError" className="error-msg">
-                    {errors.prenom}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  name="cin"
-                  placeholder="CIN"
-                  onChange={handleChange}
-                  value={formData.cin}
-                  aria-describedby="cinError"
-                  aria-invalid={!!errors.cin}
-                />
-                {errors.cin && (
-                  <p id="cinError" className="error-msg">
-                    {errors.cin}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  onChange={handleChange}
-                  value={formData.email}
-                  aria-describedby="emailError"
-                  aria-invalid={!!errors.email}
-                />
-                {errors.email && (
-                  <p id="emailError" className="error-msg">
-                    {errors.email}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <input
-                  type="tel"
-                  name="tel"
-                  placeholder="Téléphone"
-                  onChange={handleChange}
-                  value={formData.tel}
-                />
-              </div>
-
-              <div>
-                <input
-                  type="date"
-                  name="date_naissance"
-                  onChange={handleChange}
-                  value={formData.date_naissance}
-                  aria-describedby="dateError"
-                  aria-invalid={!!errors.date_naissance}
-                />
-                {errors.date_naissance && (
-                  <p id="dateError" className="error-msg">
-                    {errors.date_naissance}
-                  </p>
-                )}
-              </div>
+              <InputField name="nom" value={formData.nom} onChange={handleChange} error={errors.nom} placeholder="Nom" />
+              <InputField name="prenom" value={formData.prenom} onChange={handleChange} error={errors.prenom} placeholder="Prénom" />
+              <InputField name="cin" value={formData.cin} onChange={handleChange} error={errors.cin} placeholder="CIN" />
+              <InputField name="email" type="email" value={formData.email} onChange={handleChange} error={errors.email} placeholder="Email" />
+              <input type="tel" name="tel" placeholder="Téléphone" onChange={handleChange} value={formData.tel} />
+              <InputField name="date_naissance" type="date" value={formData.date_naissance} onChange={handleChange} error={errors.date_naissance} />
             </div>
-
             <button onClick={handleSubmit} disabled={loading}>
               {loading ? "Génération en cours..." : "Confirmer"}
             </button>
           </>
-        )}
-
-        {isQrVisible && (
-          <div className="qr-result" role="region" aria-label="QR Code généré">
+        ) : (
+          <div className="qr-result">
             <h3>QR Code Généré ✅</h3>
             <img src={qrImage} alt="QR Code" className="qr-image" />
             <div className="btn-group">
@@ -334,5 +240,25 @@ const FormulaireQR = () => {
     </>
   );
 };
+
+// Champ de formulaire avec erreur si besoin
+const InputField = ({ name, type = "text", placeholder, value, onChange, error }) => (
+  <div>
+    <input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      aria-describedby={`${name}Error`}
+      aria-invalid={!!error}
+    />
+    {error && (
+      <p id={`${name}Error`} className="error-msg">
+        {error}
+      </p>
+    )}
+  </div>
+);
 
 export default FormulaireQR;
