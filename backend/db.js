@@ -1,18 +1,22 @@
-const mysql = require('mysql2');
+const { Pool } = require('pg');
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',      // change si t’as un autre user
-  password: '',      // vide par défaut sous XAMPP
-  database: 'qr_id_web'
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error('❌ Erreur connexion MySQL :', err);
-  } else {
-    console.log('✅ Connecté à la base de données MySQL');
+const pool = new Pool({
+  user: 'qrid_web_db_user',
+  host: 'dpg-d269h4fdiees738rk5l0-a.oregon-postgres.render.com',
+  database: 'qrid_web_db',
+  password: 'JX9KFlx9mUgPFglOIUa7nJA1t6IqtDiI',
+  port: 5432,
+  ssl: {
+    rejectUnauthorized: false
   }
 });
 
-module.exports = db;
+// Test connexion à PostgreSQL
+pool.connect()
+  .then(() => console.log("✅ Connecté à PostgreSQL avec succès"))
+  .catch(err => console.error("❌ Erreur de connexion PostgreSQL :", err));
+
+// Export pour utiliser pool.query() directement
+module.exports = {
+  query: (text, params) => pool.query(text, params),
+};

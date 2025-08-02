@@ -44,7 +44,7 @@ const FormulaireQR = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/generate", formData);
+      const res = await axios.post("https://qr-id-web-4.onrender.com", formData);
       setQrImage(res.data.qrImage);
       setPdfUrl(res.data.pdfUrl);
       setIsQrVisible(true);
@@ -326,9 +326,6 @@ const FormulaireQR = () => {
             <img src={qrImage} alt="QR Code" className="qr-image" />
             <div className="btn-group">
               <button onClick={handleImprimer}>🖨️ Imprimer</button>
-              <a href={pdfUrl} download target="_blank" rel="noreferrer">
-                📥 Télécharger PDF
-              </a>
               <button onClick={handleRetour}>🏠 Retour</button>
             </div>
           </div>
